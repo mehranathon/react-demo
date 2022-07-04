@@ -13,6 +13,8 @@ import Form from './Components/Form'
   const [data,setData]=useState([]);
   const [sortBy,setSortBy]=useState({});
   const [fields,setFields]=useState(['id','username','name'])     //using state to allow for user to change fields displayed on table; at moment this will also affect form
+  const [showForm,setShowForm]=useState(false)
+  const [showTable,setShowTable]=useState(true)
 
   useEffect(()=>{
     console.warn('first')
@@ -27,17 +29,6 @@ import Form from './Components/Form'
       }
     )
   },[])
-
-  function selectItem(item){
-    if(item.id===activeItem.id) return
-    setActiveItem(item)
-  }
-
-
-  function createNew(){
-    setNewItem(true)
-    setActiveItem({id:data.reduce((a,b)=>a<b.id?b.id:a,0)+1})
-  }
 
   function sortData(field){
     console.log(field)
@@ -57,6 +48,22 @@ import Form from './Components/Form'
     setData(sData)
   }
 
+  function selectItem(item){
+    if(item.id===activeItem.id) return
+    setActiveItem(item)
+    setShowTable(false)
+    setShowForm(true)
+
+  }
+  function createNew(){
+    setNewItem(true)
+    setActiveItem({id:data.reduce((a,b)=>a<b.id?b.id:a,0)+1})
+    setShowTable(false)
+    setShowForm(true)
+  }
+
+
+
   function save(eItem){
     const svData=[]
     if(newItem){
@@ -67,14 +74,20 @@ import Form from './Components/Form'
     }
     setNewItem(false)
     setData(svData)
+    setShowTable(true)
+    setShowForm(false)
   }
   function del(dItem){
     setData(data.filter(item=>item.id!==dItem.id))
     setActiveItem({})
+    setShowTable(true)
+    setShowForm(false)
   }
   function back(){
     setNewItem(false)
     setActiveItem({})
+    setShowTable(true)
+    setShowForm(false)
   }
 
   if(error){
@@ -82,8 +95,8 @@ import Form from './Components/Form'
   }else if(data.length){
     return (
       <div className="App">
-        <Table {...{data, fields, selectItem, createNew, sortData}} />
-        <Form {...{activeItem, fields, back, save, del}}/>
+        <Table {...{data, fields, selectItem, createNew, sortData, showTable}} />
+        <Form {...{activeItem, fields, back, save, del, showForm}}/>
       </div>
     );
   }

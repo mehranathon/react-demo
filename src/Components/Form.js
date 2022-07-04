@@ -1,8 +1,7 @@
 import { createRef } from "react"
 
-function Form({activeItem, fields, save, del, back}){
+function Form({activeItem, fields, save, del, back, showForm}){
 
-    // const fields=['id','username','name']
     const entries=new Map([...fields.map((field)=>[`${field}`,createRef(null)])])
     const refs=Object.fromEntries(entries)
 
@@ -15,6 +14,8 @@ function Form({activeItem, fields, save, del, back}){
     }
     const delItem=()=>del(activeItem)
     const goBack=()=>back()
+
+    if(!showForm) return null
 
     return(
         <div className='Form'>

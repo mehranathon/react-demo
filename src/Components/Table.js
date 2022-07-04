@@ -1,11 +1,13 @@
 import { useEffect} from "react";
 
-export function Table({data, fields, selectItem, createNew, sortData}) {
+export function Table({data, fields, selectItem, createNew, sortData, showTable}) {
 
 
   useEffect(()=>{
     console.log('table rendered')
   })
+
+  if(!showTable) return null
   
   return (
     <div className="Table-Container">
