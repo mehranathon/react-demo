@@ -1,98 +1,41 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect} from "react";
 
-export function Table(props) {
-  console.log(props)
-  const [data,setData]=useState(props.value)
-  
-  // I don't know if this is ok
-  if(data.length!==props.value.length) setData(props.value)
-
-  const selectItem=props.selectItem
-  const [sortBy,setSortBy]=useState(null)
+export function Table({data, fields, selectItem, createNew, sortData}) {
 
 
   useEffect(()=>{
-    // console.log(data)
-  },[])
-
-  
-
-  let sData=[...data]
-    sData.sort((a,b)=>{
-    if(!sortBy) return
-    if (sortBy.asc){
-      return a[sortBy.field]<b[sortBy.field]?-1:1
-    }else{
-      return a[sortBy.field]>b[sortBy.field]?-1:1
-    }
+    console.log('table rendered')
   })
-
-  // useMemo(()=>{
-  //   let sData=[...data]
-  //   sData.sort((a,b)=>{
-  //     if(!sortBy) return
-  //     if (sortBy.asc){
-  //       if(a[sortBy.field]<b[sortBy.field]) return -1
-  //       if(a[sortBy.field]>b[sortBy.field]) return 1
-  //       return 0
-  //     }else{
-  //       if(a[sortBy.field]<b[sortBy.field]) return 1
-  //       if(a[sortBy.field]>b[sortBy.field]) return -1
-  //       return 0
-  //     }
-
-  //   })
-    
-  // },[data,sortBy])
   
-
   return (
     <div className="Table-Container">
-      <button onClick={()=>props.createNew()}>Add</button>  
+      <button onClick={()=>createNew()}>Add</button>  
       <table className="Table">
         <thead>
           <tr>
-            <th 
-              onClick={()=>setSortBy(
-                {
-                field:'id',
-                asc:sortBy?.field==='id'?!sortBy.asc:true
-                })}>
-                ID
-            </th>
-            <th 
-              onClick={()=>setSortBy({
-                field:'username', 
-                asc:sortBy?.field==='username'?!sortBy.asc:true
-                })}>
-                USERNAME
-            </th>
-            <th 
-              onClick={()=>setSortBy({
-                field:'name',
-                asc:sortBy?.field==='name'?!sortBy.asc:true
-                })}>
-                NAME
-            </th>
+          {fields.map(field=>{
+            return(
+              <th
+                onClick={()=>{
+                  sortData(field)
+                }}
+                key={field}
+              >
+              {field}
+              </th>
+            )
+          })}
           </tr> 
         </thead>
         <tbody>
-          {sData.map(item=>
+          {data.map(item=>
             <tr
               key={item.id}
               onClick={()=>{
                 selectItem(item)
                 }}
             >
-              <td>
-                {item.id}
-              </td>
-              <td>
-                {item.username}
-              </td>
-              <td>
-                {item.name}
-              </td>
+              {fields.map(field=><td key={item.id+field}>{item[field]}</td>)}
             </tr>
           )}
         </tbody>
