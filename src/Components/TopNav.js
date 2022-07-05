@@ -11,21 +11,23 @@ function TopNav(){
     return(
         <AppBar position="fixed">
             <Toolbar>
+            <div className="AF-Logo">
+                <Logo />
+            </div>
+
+            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                USERS
+            </Typography>
+
             <IconButton
                 size="large"
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                sx={{mr:2}}
+                // sx={{mr:2}}
             >
                 <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                USERS
-            </Typography>
-            <div className="AF-Logo">
-                <Logo />
-            </div>
             {/* <img src={"AF_Logo.svg"}>
 
             </img> */}

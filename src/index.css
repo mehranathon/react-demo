@@ -3,6 +3,7 @@
     width:4rem;
     fill:white;
     display:flex;
+    margin-right:1rem;
 }
 
 .Form{
@@ -17,12 +18,12 @@
 }
 
 .hover-cell:hover{
-    color:#1976d2;
+    color:#3842ff;
     transition:.25s color
 }
 
 .asc,.desc{
-    color:#1976d2 !important;
+    color:#3842ff !important;
     position:relative;
 }
 

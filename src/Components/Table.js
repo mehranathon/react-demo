@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
+import PersonAdd from "@mui/icons-material/PersonAdd"
 
 
 
@@ -16,7 +17,6 @@ export function UTable({data, fields, selectItem, createNew, sortData, sortBy, s
 
   useEffect(()=>{
     console.log('table rendered')
-    console.log(theme)
   })
 
   const ref=useRef(null)
@@ -29,20 +29,17 @@ export function UTable({data, fields, selectItem, createNew, sortData, sortBy, s
   if(!showTable) return null
   
   return (
-    <Box  m="5rem auto 0rem auto" padding="1rem">
+    <Box  m="4rem auto 0rem auto" padding="1rem">
       <TableContainer 
         className="User-Container" 
         ref={ref}
         onTransitionEnd={(e)=>{if(e.target===ref.current)action(selectedItem)}}
-        sx={{padding:"1rem"}}
+        sx={{padding:"0 1rem"}}
         >
-        <Stack spacing ={2} direction="row" justifyContent="flex-end">
-          <Button variant="contained" onClick={()=>{action=createNew;fadeOut()}}>Add</Button>  
-        </Stack>
         <Table sx={{ minWidTableCell:650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          {fields.map(field=>{
+          {fields.map(({field})=>{
             return(
               <TableCell
                 onClick={()=>{
@@ -72,12 +69,18 @@ export function UTable({data, fields, selectItem, createNew, sortData, sortBy, s
                 fadeOut()
                 }}
             >
-              {fields.map(field=><TableCell key={item.id+field}>{item[field]}</TableCell>)}
+              {fields.map(field=><TableCell key={item.id+field.field}>{item[field.field]}</TableCell>)}
             </TableRow>
           )}
         </TableBody>
         </Table>
+        <Stack m="1rem 0 0 0 ">
+        <Button variant="contained" onClick={()=>{action=createNew;fadeOut()}}>
+          <PersonAdd fontSize="large" />
+        </Button>  
+      </Stack>
       </TableContainer>
+
     </Box>
   );
   

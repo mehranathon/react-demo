@@ -17,6 +17,13 @@ import CssBaseline from "@mui/material/CssBaseline";
       createTheme({
         palette:{
           mode: prefersDarkMode ? 'dark' : 'light',
+          primary:{
+            main: "#3842ff"
+          },
+          // background:{
+          //   default:prefersDarkMode?'#20203e':''
+          // }
+          
         },
       }),
     [prefersDarkMode]
@@ -27,9 +34,34 @@ import CssBaseline from "@mui/material/CssBaseline";
   const [newItem,setNewItem]=useState(false);
   const [data,setData]=useState([]);
   const [sortBy,setSortBy]=useState({});
-  const [fields,setFields]=useState(['id','username','name'])     //using state to allow for user to change fields displayed on table; at moment this will also affect form
+  // const [fields,setFields]=useState(['id','username','name'])     //using state to allow for user to change fields displayed on table; at moment this will also affect form
   const [showForm,setShowForm]=useState(false)
   const [showTable,setShowTable]=useState(true)
+
+  const fields=[
+    {
+      field:'id',
+      fieldType:'id',
+      label:'ID'
+    },
+    {
+      field:'username',
+      fieldType:'username',
+      label:'USERNAME'
+    },
+    {
+      field:'name',
+      fieldType:'name',
+      label:'NAME'
+    },
+    {
+      field: 'email',
+      fieldType:'email',
+      label:'EMAIL'
+    }
+  ]
+
+  const [validator, setValid]=useState(Object.fromEntries(new Map([...fields.map(field=>[field.field,false])])))
 
   useEffect(()=>{
     console.warn('first')
@@ -52,6 +84,7 @@ import CssBaseline from "@mui/material/CssBaseline";
       field,
       asc:sortBy?.field===field?!sortBy.asc:true,
     }
+    
 
     sData.sort((a,b)=>{
       if(!nSort) {console.log('no sort'); return sData}
@@ -66,6 +99,7 @@ import CssBaseline from "@mui/material/CssBaseline";
   function selectItem(item){
     if(item.id===activeItem.id) return
     setActiveItem(item)
+    setValid(Object.fromEntries(new Map([...fields.map(field=>[field.field,true])])))                     //assumes existing items in database are validated
     setShowTable(false)
     setShowForm(true)
 
@@ -73,12 +107,10 @@ import CssBaseline from "@mui/material/CssBaseline";
   function createNew(){
     setNewItem(true)
     setActiveItem({id:data.reduce((a,b)=>a<b.id?b.id:a,0)+1})
+    setValid(Object.fromEntries(new Map([...fields.map(({field})=>[field,field==='id'?true:false])])))
     setShowTable(false)
     setShowForm(true)
   }
-
-
-
   function save(eItem){
     console.log(eItem)
     const svData=[]
@@ -106,8 +138,6 @@ import CssBaseline from "@mui/material/CssBaseline";
     setShowForm(false)
   }
 
-  console.log(prefersDarkMode)
-
   if(error){
     return <div>Error: {error.message}</div>
   }else if(data.length){
@@ -119,7 +149,7 @@ import CssBaseline from "@mui/material/CssBaseline";
         <TopNav />
       
         <UTable {...{data, fields, selectItem, createNew, sortData, sortBy, showTable, theme}} />
-        <Form {...{activeItem, fields, back, save, del, showForm, theme}}/>
+        <Form {...{activeItem, validator, setValid, fields, back, save, del,  showForm, theme}}/>
         </ThemeProvider>
       </div>
       
