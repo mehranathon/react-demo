@@ -1,35 +1,66 @@
-.App{
+.AF-Logo{
+    height:4rem;
+    width:4rem;
+    fill:white;
     display:flex;
 }
-
-.Table{
-    /* border: solid thin;
-    padding: 1rem; */
-}
-
-.Table-Container{
-    border: solid thin;
-    padding: 1rem;
-}
-
 
 .Form{
-    display: flex;
+    display:flex;
+    padding:1rem;
     flex-direction: column;
-    padding: 1rem;
-    border: solid thin;
-    margin-left: 1rem;
-    justify-content: space-between;
 }
 
-.Form label{
-    display:flex;
-    justify-content: space-between;
+.hover-cell{
+    cursor:pointer;
+    user-select: none;
 }
 
+.hover-cell:hover{
+    color:#1976d2;
+    transition:.25s color
+}
 
-.Form .btn-bar{
-    display:flex;
-    justify-content: space-between;
+.asc,.desc{
+    color:#1976d2 !important;
+    position:relative;
+}
 
+.asc::before{
+    content:'▲';
+    position:absolute;
+    left:-.5rem;
+}
+
+.desc::before{
+    content:'▼';
+    position:absolute;
+    left:-.5rem;
+}
+
+/* .User-Table-Row{
+    transition:.25s background-color
+} */
+
+.User-Container{
+    transition:.25s cubic-bezier(0.4, 0, 1, 1) opacity;
+    animation: .25s fadein;
+}
+
+.User-Form{
+    transition:.25s cubic-bezier(0.4, 0, 1, 1) opacity;
+    animation: .25s fadein;
+}
+
+.fade-out{
+    opacity:0;
+}
+
+@keyframes fadein{
+    from{
+        opacity:0
+    }
+    to{
+        opaicty:1
+    }
 }

@@ -1,12 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import './App.css';
-import { Table} from './Components/Table';
+import TopNav from './Components/TopNav';
+import {UTable} from './Components/Table';
 import Form from './Components/Form'
+import { createTheme, ThemeProvider, useMediaQuery } from '@mui/material';
+import CssBaseline from "@mui/material/CssBaseline";
 
 
 
 
  function App() {
+  const prefersDarkMode=useMediaQuery('(prefers-color-scheme: dark)')
+
+  const theme=useMemo(
+    ()=>
+      createTheme({
+        palette:{
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode]
+    );
+  
   const [error, setError] = useState(null)
   const [activeItem,setActiveItem]=useState({});
   const [newItem,setNewItem]=useState(false);
@@ -65,6 +80,7 @@ import Form from './Components/Form'
 
 
   function save(eItem){
+    console.log(eItem)
     const svData=[]
     if(newItem){
       svData.push(...data,eItem)
@@ -90,14 +106,23 @@ import Form from './Components/Form'
     setShowForm(false)
   }
 
+  console.log(prefersDarkMode)
+
   if(error){
     return <div>Error: {error.message}</div>
   }else if(data.length){
     return (
       <div className="App">
-        <Table {...{data, fields, selectItem, createNew, sortData, showTable}} />
-        <Form {...{activeItem, fields, back, save, del, showForm}}/>
+
+      <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
+        <TopNav />
+      
+        <UTable {...{data, fields, selectItem, createNew, sortData, sortBy, showTable, theme}} />
+        <Form {...{activeItem, fields, back, save, del, showForm, theme}}/>
+        </ThemeProvider>
       </div>
+      
     );
   }
 }
