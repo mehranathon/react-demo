@@ -25,7 +25,9 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
 
     const fadeOut=()=>{formRef.current.classList.add('fade-out')}
 
-    let action=null
+    const [action, setAction]= useState('null')
+
+    // let action=null
 
     if(!showForm) return null
 
@@ -45,7 +47,15 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
             autoCompelte="off"
             className="User-Form"
             ref={formRef}
-            onTransitionEnd={(e)=>{if(e.target===formRef.current)action()}}
+            onTransitionEnd={
+                (e)=>{
+                    if(e.target===formRef.current){
+                        if(action==='back') goBack()
+                        if(action==='save') saveItem()
+                        if(action==='delete') delItem()
+                    }
+                }    
+            }
         
         >
             {fields.map(({field, fieldType},ind)=>{
@@ -82,8 +92,8 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
             })}
 
             <Stack spacing ={2} direction="row" justifyContent="space-between" m="1rem 0 0 0">
-                <Button variant="contained" onClick={()=>{action=goBack;fadeOut()}}>Back</Button>
-                <Button variant="contained" disabled={Object.values(validator).includes(false)} onClick={()=>{action=saveItem;fadeOut()}}>Save</Button>
+                <Button variant="contained" onClick={()=>{setAction('back');fadeOut()}}>Back</Button>
+                <Button variant="contained" disabled={Object.values(validator).includes(false)} onClick={()=>{setAction('save');fadeOut()}}>Save</Button>
                 {/* <Button variant="contained" onClick={()=>{action=delItem;fadeOut()}}>Delete</Button> */}
                 <Button variant="contained" onClick={()=>{setOpen(true)}}>Delete</Button>
             </Stack>
@@ -91,7 +101,13 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
             <ConfirmDelete
                 item={activeItem}
                 open={dialogOpen}
-                confirm={()=>{setOpen(false); action=delItem();fadeOut()}}
+                confirm={
+                    ()=>{
+                        setAction('delete')
+                        setOpen(false)
+                        fadeOut()
+                    }
+                }
                 reject={()=>{setOpen(false)}}
             />
 
@@ -138,7 +154,7 @@ const validate=function(fieldType,val){
         // return cleanPhoneNum(val).length>9
     }
     if(['street','city'].includes(fieldType)){
-        const forbidden=/[~`!#_$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g
+        const forbidden=/[~`!#_$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g; // eslint-disable-line  
         return !forbidden.test(val)
 
     }

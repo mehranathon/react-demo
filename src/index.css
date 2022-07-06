@@ -57,6 +57,22 @@
     opacity:0;
 }
 
+.MuiDataGrid-row{
+    cursor:pointer;
+}
+
+.MuiDataGrid-columnHeaderTitle{
+    user-select: none;
+}
+.MuiDataGrid-columnHeader--sorted{
+    color: #3842ff;
+}
+
+.MuiDataGrid-columnHeader--sorted svg{
+    fill: #3842ff;
+}
+
+
 @keyframes fadein{
     from{
         opacity:0
