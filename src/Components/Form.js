@@ -1,8 +1,6 @@
 import { createRef, useRef, useState} from "react"
-import TextField from "@mui/material/TextField"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Stack from "@mui/material/Stack"
+import {TextField, Box, Stack, IconButton} from "@mui/material"
+import {Save, PersonRemove, ArrowBack} from '@mui/icons-material'
 import ConfirmDelete from "./ConfirmDelete"
 
 function Form({activeItem, validator, setValid, fields, save, del, back, showForm}){
@@ -56,7 +54,6 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
                     }
                 }    
             }
-        
         >
             {fields.map(({field, fieldType},ind)=>{
                 return (
@@ -82,20 +79,33 @@ function Form({activeItem, validator, setValid, fields, save, del, back, showFor
                                         setValid(newValidator)
                                     }
                                 }}
-                            
-
-                            // onChange={()=>{
-                
-                            // }}
                         />
                 )
             })}
 
-            <Stack spacing ={2} direction="row" justifyContent="space-between" m="1rem 0 0 0">
-                <Button variant="contained" onClick={()=>{setAction('back');fadeOut()}}>Back</Button>
-                <Button variant="contained" disabled={Object.values(validator).includes(false)} onClick={()=>{setAction('save');fadeOut()}}>Save</Button>
-                {/* <Button variant="contained" onClick={()=>{action=delItem;fadeOut()}}>Delete</Button> */}
-                <Button variant="contained" onClick={()=>{setOpen(true)}}>Delete</Button>
+            <Stack spacing ={2} direction="row" justifyContent="space-around" m="1rem 0 0 0">
+                <IconButton
+                    color="primary"
+                    aria-label="back"
+                    onClick={()=>{setAction('back');fadeOut()}}
+                >
+                    <ArrowBack fontSize="large" />
+                </IconButton>
+                <IconButton
+                    color="primary"
+                    aria-label="save"
+                    onClick={()=>{setAction('save');fadeOut()}}
+                    disabled={Object.values(validator).includes(false)}
+                >
+                    <Save fontSize="large" />
+                </IconButton>
+                <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={()=>{setOpen(true)}}
+                >
+                    <PersonRemove fontSize="large" />
+                </IconButton>
             </Stack>
 
             <ConfirmDelete

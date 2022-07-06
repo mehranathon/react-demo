@@ -33,8 +33,6 @@ import CssBaseline from "@mui/material/CssBaseline";
   const [activeItem,setActiveItem]=useState({});
   const [newItem,setNewItem]=useState(false);
   const [data,setData]=useState([]);
-  const [sortBy,setSortBy]=useState({});
-  // const [fields,setFields]=useState(['id','username','name'])     //using state to allow for user to change fields displayed on table; at moment this will also affect form
   const [showForm,setShowForm]=useState(false)
   const [showTable,setShowTable]=useState(true)
 
@@ -77,24 +75,6 @@ import CssBaseline from "@mui/material/CssBaseline";
     )
   },[])
 
-  function sortData(field){
-    console.log(field)
-    const sData=[...data]
-    const nSort={
-      field,
-      asc:sortBy?.field===field?!sortBy.asc:true,
-    }
-    
-
-    sData.sort((a,b)=>{
-      if(!nSort) {console.log('no sort'); return sData}
-      if (nSort.asc) return a[nSort.field]<b[nSort.field]?-1:1;
-      else return a[nSort.field]>b[nSort.field]?-1:1;
-    })
-
-    setSortBy(nSort)
-    setData(sData)
-  }
 
   function selectItem(item){
     if(item.id===activeItem.id) return
@@ -148,7 +128,7 @@ import CssBaseline from "@mui/material/CssBaseline";
         <CssBaseline enableColorScheme />
         <TopNav />
       
-        <UTable {...{data, fields, selectItem, createNew, sortData, sortBy, showTable, theme}} />
+        <UTable {...{data, fields, selectItem, createNew, showTable, theme}} />
         <Form {...{activeItem, validator, setValid, fields, back, save, del,  showForm, theme}}/>
         </ThemeProvider>
       </div>

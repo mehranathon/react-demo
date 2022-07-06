@@ -1,10 +1,7 @@
-import { AppBar, IconButton, Toolbar } from "@mui/material"
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
-// import MenuIcon from '@mui/material/Icon'
-import Typography from "@mui/material/Typography"
-import SvgIcon from "@mui/material/SvgIcon"
 import {ReactComponent as Logo} from "../AF_Logo.svg"
-import { makeStyles } from "@mui/material/styles"
+
 
 function TopNav(){
 
@@ -24,13 +21,9 @@ function TopNav(){
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                // sx={{mr:2}}
             >
                 <MenuIcon />
             </IconButton>
-            {/* <img src={"AF_Logo.svg"}>
-
-            </img> */}
 
             </Toolbar>
         </AppBar>
