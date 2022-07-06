@@ -62,7 +62,6 @@ import CssBaseline from "@mui/material/CssBaseline";
   const [validator, setValid]=useState(Object.fromEntries(new Map([...fields.map(field=>[field.field,false])])))
 
   useEffect(()=>{
-    console.warn('first')
     fetch('./mockData.json')
     .then(response=>response.json())
     .then(
@@ -92,7 +91,6 @@ import CssBaseline from "@mui/material/CssBaseline";
     setShowForm(true)
   }
   function save(eItem){
-    console.log(eItem)
     const svData=[]
     if(newItem){
       svData.push(...data,eItem)
